@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <script type="text/javascript" src="d3.min.js"></script>
+        <title> Project One </title>
+    </head>
+
+    <style>
+        @font-face {
+            font-family:Marion;
+            src: url('fonts/Marion.ttc');
+            font-family:Mohave-Bold;
+            src: url('fonts/Mohave-Bold.otf');  
+        }
+        
+        body {
+            background: url(images/background.jpg) no-repeat center fixed;
+            width: 100%;
+            margin: 0;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;   
+        }
+        
+        #chart {
+            width:800px;
+            height:350px;
+            margin-left:15px;
+        }
+        
+        #film_img {
+            width: 100%;
+            margin-top: -50px;
+            z-index: -1;
+            position: relative;
+        }
+        
+        #brave_img {
+            width: 183px;
+            height: 125px;
+            cursor: pointer;
+            margin-top: -100px;
+            margin-left: 10px;
+            display: inline-block;
+            z-index: 1;
+            position: absolute;
+            bottom: 70px;
+            padding: 0px 5px;
+            opacity: 0.5;
+        }
+        
+        #monsters_img {
+            display: inline-block;
+            position: absolute;
+            cursor: pointer;
+            width: 183px;
+            height: 125px;
+            padding: 0px 5px;
+            z-index: 1;
+            bottom: 70px;
+            left: 210px;
+            opacity: 0.5;
+        }
+        
+        #itunes_img {
+            display: inline-block;
+            position: absolute;
+            cursor: pointer;
+            width: 183px;
+            height: 125px;
+            padding: 0px 5px;
+            z-index: 1;
+            bottom: 70px;
+            left: 410px;
+            opacity: 0.5;
+        }
+        
+        #toy_img {
+            width: 183px;
+            height: 125px;
+            cursor: pointer;
+            display: inline-block;
+            position: absolute;
+            padding: 0px 5px;
+            z-index: 1;
+            bottom: 70px;
+            left: 613px;
+            opacity: 0.5;
+        }
+        
+        #inside_img {
+            width: 183px;
+            height: 125px;
+            cursor: pointer;
+            display: inline-block;
+            position: absolute;
+            padding: 0px 5px;
+            z-index: 1;
+            bottom: 70px;
+            left: 815px;
+            opacity: 0.5;
+        }
+        
+        #dino_img {
+            width: 183px;
+            height: 125px;
+            cursor: pointer;
+            display: inline-block;
+            position: absolute;
+            padding: 0px 5px;
+            z-index: 1;
+            bottom: 70px;
+            left: 1020px;
+            opacity: 0.5;
+        }
+        
+        #dory_img {
+            width: 183px;
+            height: 125px;
+            cursor: pointer;
+            display: inline-block;
+            position: absolute;
+            padding: 0px 5px;
+            margin-right: 20px;
+            z-index: 1;
+            bottom: 70px;
+            left: 1220px;
+            opacity: 0.5;
+        }
+        
+        #end {
+            color: gray;
+            font-family: Marion;
+            font-size: 10px;
+            text-align: center;
+            margin-top: -140px;
+            position: absolute;
+            bottom: -8px;
+            width: 1000px;
+            left: 50%;
+            margin-left: -500px;
+        }
+        
+        path {
+            stroke-width: 3;
+            fill: none;
+        }
+        
+        .tooltip {
+            position: relative;
+  		    width: 100px;
+  		    height: 28px;
+  		    font-family: Helvetica;
+  		    text-align: center;
+  		    color: white;
+  		    pointer-events: none;
+	   }  
+        .pixar {
+            stroke: #5b5863;
+   	        stroke-width: 6;
+            -webkit-transition: 0.5s;
+	   }
+
+	   .pixar:hover {
+            r: 10px;
+            fill: #C6C0D9;
+            -webkit-transition: r 0.5s;
+	   }
+    
+        #title { 
+            width:430px;
+            height: 40px;
+            position: absolute;
+            top: 100px;
+            left: 475px;
+            color: white;
+            font-family: Mohave-Bold;
+            font-size: 24px;
+            margin-top: 10px;
+        }
+        #context {
+            width: 500px;
+            height: 200px;
+            position: absolute;
+            top: 140px;
+            left: 475px;
+            font-family: Marion;
+            font-size: 18px;
+            color: white;
+            text-align: justify;
+        }
+        
+        
+    </style>
+
+    <body>
+    
+        <div id="logo"><img src="images/logo.png" style="width:325px; padding:20px;"</div>
+            
+        <div id="chart"></div>
+        
+        <div id="films">
+        <img id="film_img" src="images/film2.png">
+        
+        <img id="brave_img" src="images/brave-4096x2924-pixar-merida-animation-4k-633.jpg">
+        
+        <img id="monsters_img" src="images/monsters.jpg">
+            
+        <img id="itunes_img" src="images/Disney-iTunes.png">
+            
+        <img id="toy_img" src="images/Pixar-Post-Toy-STory-That-Time-Forgot-Billboard.jpg">
+            
+        <img id="inside_img" src="images/InsideOut556500e6a2be0-2040.0.jpg">
+            
+        <img id="dino_img" src="images/good-dino-xlarge.jpg">
+            
+        <img id="dory_img" src="images/dory.jpg">
+        </div>
+          
+            <div id="end">
+            <p>*Data on graph gathered from Google Trends to show the popularity of Pixar over time based on the success of its movies and events. Stats on films gathered from Wikipedia.*</p>
+                </div>
+            
+            <div id="title"></div>
+        <div id="context"></div>
+        
+    </body>
+    
+    <script>
+        
+    // 1: Define the Dataset
+        
+        d3.csv("data/pixar.csv", function(error,data) {
+        
+    var markers = ["one", "two", "three", "four", "five", "six", "seven"];
+            
+    // 2: Parse the Dataset
+        
+        var parseDate = d3.time.format("%m/%d/%y").parse;
+        data.forEach(function(d) {
+            d.date = parseDate(d.date);
+                d['pixar'] = +d['pixar'];
+                d['select'] = +d['select'];
+            });
+    
+    // 3: Define the Chart's Scale
+        var padding = {top:50, right:30, bottom:140, left:30};
+        var w = 1400 - padding.left - padding.right;
+        var h = 500 - padding.top - padding.bottom;
+            
+        var xScale = d3.time.scale()
+            .domain(d3.extent(data, function(d) {return d.date;}))
+            .range([0,w]);
+            
+        var yScale = d3.scale.linear()
+            .domain([0, d3.max(data, function(d) { return d.pixar;})])
+            .range([h,0]);
+            
+    //4: Establish the Drawing Area
+            
+        var svg = d3.select("#chart")
+            .append("svg")
+            .attr("width", w + padding.left + padding.right)
+            .attr("height", h + padding.top + padding.bottom)
+            .append("g")
+            .attr("transform", "translate(" + padding.left + "," + padding.top + ")");
+            
+    // 5: Draw svg Elements
+        var pixarline = d3.svg.line()
+            .x(function(d) {
+            return xScale(d.date); })
+            .y(function(d) {
+            return yScale(+d.pixar); });
+            
+        svg.append("path")
+            .attr("stroke" , "#D6CFD9")
+            .attr("d", pixarline(data));
+            
+            
+    //Interactive Components
+            var tooltip = d3.select("#chart").append("div")
+   			.attr("class", "tooltip")
+    		.style("opacity", 0);
+
+		svg.selectAll("dots_c")
+			.data(data)
+			.enter()
+			.append("circle")
+			.filter(function(d) {
+            
+            // filter function
+				return d.select == 1 
+                
+                })
+        
+            .attr("id", function(d,i) { return markers[i]; })
+        
+			.attr("cx", function(d) {
+				return xScale(d.date); 
+			})
+			.attr("cy", function(d) {
+				return yScale(d.pixar); 
+			})
+			.attr("class","pixar")
+			.attr("cx", function(d) {
+				return xScale(d.date);
+			})
+			.attr("cy", function(d) {
+				return yScale(d.pixar);
+			})
+			.attr("r", function(d) {
+				return 3;
+			})
+			.on("mouseover", function(d) {
+
+				this.parentNode.appendChild(this);
+
+          		tooltip.transition()
+                .duration(200)
+                .style("opacity", 1);
+          		
+          		tooltip.html(d.title)
+          		.style("left", xScale(d.date) + -15 + "px")
+                .style("top", yScale(d.pixar) + -485 + "px");
+
+      		})
+      		.on("mouseout", function(d) {
+          		tooltip.transition()
+               .duration(500)
+               .style("opacity", 0);
+      		});
+            
+            
+            // hover effects when first circle is selected
+      		document.getElementById("one").onmouseover = function() {
+      			document.getElementById("brave_img").style.opacity = 1;
+      			document.getElementById("context").innerHTML = "Initially set to premiere on June 15, 2012, but was pushed back to June 22nd. The film originally premiered on the last day of the Seattle International Film Festival on June 10th. Brave received such a positive reaction from the screeners that the movie was released in 4,164 theaters, a record-high for Pixar. This film follows Merida, a wild-haired Scottish Princess, on her quest to change her fate. However, due to a wonky spell from and equally wonky witch, Merida finds herself in an sticky situation. The cast and crew took home 19 awards out of the 66 they were nominated for. This includes an Oscar for Best Animated Feature. Its worldwide box office earnings totaled to $540,437,063.";
+                document.getElementById("title").innerHTML = "Brave - June 22, 2012";
+      		}
+
+      		document.getElementById("one").onmouseleave = function() {
+      			document.getElementById("brave_img").style.opacity = 0.3;
+      			document.getElementById("context").innerHTML = " ";
+                document.getElementById("title").innerHTML = " ";
+      		}
+
+      		// hover effects when first circle is selected
+      		document.getElementById("two").onmouseover = function() {
+      			document.getElementById("monsters_img").style.opacity = 1;
+      			document.getElementById("context").innerHTML = "Originally premiered on June 5, 2013, at the BFI Southbank in London, United Kingdom and was released on June 21, 2013 in the United States. Monsters University was accompanied in theaters by a short film, The Blue Umbrella. The film follows the story of two monsters, Mike and Sully, as they navigate the tough waters know as college. Monsters University was nominated for 64 awards, of which the team won 9. The worldwide box office total for this movie comes to $744.2 million. ";
+                document.getElementById("title").innerHTML = "Monsters University - June 21, 2013";
+      		}
+
+      		document.getElementById("two").onmouseleave = function() {
+      			document.getElementById("monsters_img").style.opacity = 0.3;
+      			document.getElementById("context").innerHTML = " ";
+                document.getElementById("title").innerHTML = " ";
+      		}
+
+      		// hover effects when third circle is selected
+      		document.getElementById("three").onmouseover = function() {
+      			document.getElementById("itunes_img").style.opacity = 1;
+      			document.getElementById("context").innerHTML = "Apple's iTunes originally launced on April 28, 2003. It is the largest music vendor in the United States since April 2008, and the largest in the world since February 2010. At the Macworld 2008 keynote, Steve Jobs announced iTunes movie rentals. This allows users to rent movies the same day they were released to DVD. After Disney and Pixar merged in 2006, making movies was the main priority. It wasn't until 2014 that Disney added movies to iTunes. Today, Disney has its own movie app available for download. This app allows consumers to purchase and view Disney and Pixar movies on their mobile devices and tablets.";
+                document.getElementById("title").innerHTML = "Disney Available on iTunes - February 23, 2014";
+      		}
+
+      		document.getElementById("three").onmouseleave = function() {
+      			document.getElementById("itunes_img").style.opacity = 0.3;
+      			document.getElementById("context").innerHTML = " ";
+                document.getElementById("title").innerHTML = " ";
+      		}
+
+      		// hover effects when fourth circle is selected
+      		document.getElementById("four").onmouseover = function() {
+      			document.getElementById("toy_img").style.opacity = 1;
+      			document.getElementById("context").innerHTML = "Pixar released this short TV film on ABC in 2014. It is a Christmas-themed television special. Originally planned to be a six-minute short, but was turned into the 22-minute special that aired. It features most of the regular cast from the Toy Story series. The special took three years to make, two of which were spent on story development. Overall it was nominated for 8 awards, but unfortunately did not win any. On ABC the short film received 6.79 million viewers, and on Disney Channel it received 3.27 million viewers. This made it the most-watched broadcast on the network that night. ";
+                document.getElementById("title").innerHTML = "Toy Story That Time Forgot - December 2, 2014";
+      		}
+
+      		document.getElementById("four").onmouseleave = function() {
+      			document.getElementById("toy_img").style.opacity = 0.3;
+      			document.getElementById("context").innerHTML = " ";
+                document.getElementById("title").innerHTML = " ";
+      		}
+            
+            // hover effects when fifth circle is selected
+      		document.getElementById("five").onmouseover = function() {
+      			document.getElementById("inside_img").style.opacity = 1;
+      			document.getElementById("context").innerHTML = "After premiering at the 68th Cannes Film Festival in May, Inside Out was released in North America on June 21, 2015, accompanied by the short film LAVA. Inside Out follows young Riley after she is uprooted from her Midwest life and moved to San Francisco, her emotions — Joy, Fear, Anger, Disgust and Sadness — conflict on how best to navigate a new city, house, and school. This film won 92 of the 95 nominations, including an Oscar for best animated feature film of the year. In the worldwide box office, Inside Out grossed over $853 Million.";
+                document.getElementById("title").innerHTML = "Inside Out - June 21, 2015";
+      		}
+
+      		document.getElementById("five").onmouseleave = function() {
+      			document.getElementById("inside_img").style.opacity = 0.3;
+      			document.getElementById("context").innerHTML = " ";
+                document.getElementById("title").innerHTML = " ";
+      		}
+            
+            // hover effects when sixth circle is selected
+      		document.getElementById("six").onmouseover = function() {
+      			document.getElementById("dino_img").style.opacity = 1;
+      			document.getElementById("context").innerHTML = "The Good Dinosaur premiered on November 10, 2015 in Paris. The film is set on a fictional Earth in which dinosaurs never became extinct. The story follows a young Apatosarus named Arlo, who meets an unlikely human friend while traveling through a harsh and mysterious landscape. The Good Dinosaur was nominated for 45 awards, 5 of which were won by the cast and crew. Despite the positive reviews from critics, the film only grossed $332.2 million in the worldwide box office, making it the lowest grossing film in Pixar history.";
+                document.getElementById("title").innerHTML = "The Good Dinosaur - November 22, 2015";
+      		}
+
+      		document.getElementById("six").onmouseleave = function() {
+      			document.getElementById("dino_img").style.opacity = 0.3;
+      			document.getElementById("context").innerHTML = " ";
+                document.getElementById("title").innerHTML = " ";
+      		}
+            
+            // hover effects when seventh circle is selected
+      		document.getElementById("seven").onmouseover = function() {
+      			document.getElementById("dory_img").style.opacity = 1;
+      			document.getElementById("context").innerHTML = "This movie premiered at the El Capitan Theatre in Los Angeles on June 8, 2016. Finding Dory is the long awaited sequel and spinoff to Finding Nemo (released in 2003). The film focuses on the amnesiac fish Dory, who journeys to be reunited with her parents. Along the way, she is captured and taken to a California public aquarium. Because the film was released this year it has only been nominated for three awards at this particular time. Of these three nominations, the film has won two awards. Finding Dory grossed over $1 billion worldwide, becoming the second Pixar film to cross this mark following Toy Story 3 (2010). The film set numerous records, inculding biggest animated opening of all time in North America. Same goes for the U.S. and China.";
+                document.getElementById("title").innerHTML = "Finding Dory - June 19, 2016";
+      		}
+
+      		document.getElementById("seven").onmouseleave = function() {
+      			document.getElementById("dory_img").style.opacity = 0.3;
+      			document.getElementById("context").innerHTML = " ";
+                document.getElementById("title").innerHTML = " ";
+      		}
+   
+
+// 6: Set Axes
+            //none
+        
+                
+});
+    </script>
+    
+</html>
